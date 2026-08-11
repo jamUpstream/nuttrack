@@ -79,6 +79,7 @@ export default function HomeScreen() {
           logs={logs}
           onPrev={() => shift(-1)}
           onNext={() => shift(1)}
+          onChangeMonth={(year, month) => setCursor({ year, month })}
           onSelectDay={setSelected}
         />
 

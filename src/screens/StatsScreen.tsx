@@ -67,7 +67,7 @@ export default function StatsScreen() {
             <MaterialIcons name="workspace-premium" size={22} color={colors.primaryContainer} />
           </View>
         </View>
-        <View style={{ marginTop: space.stackMd, gap: 8 }}>
+        <View style={{ marginTop: space.stackMd, gap: 12 }}>
           <View style={s.rowBetween}>
             <StatLabel>Day {stats.current}</StatLabel>
             <StatLabel>Day {milestone?.target ?? stats.current}</StatLabel>
@@ -87,6 +87,9 @@ export default function StatsScreen() {
         <View style={{ marginTop: space.stackMd, gap: 8 }}>
           <ProgressBar value={level.progress} />
           <StatLabel>
+            {level.next ? `${points - level.at}/${level.next.at - level.at} XP` : `${points} XP total`}
+          </StatLabel>
+          <StatLabel>
             {level.next ? `${level.next.at - points} XP to ${level.next.title}` : 'Max tier reached.'}
           </StatLabel>
         </View>
@@ -98,13 +101,13 @@ export default function StatsScreen() {
         </LabelCaps>
         <View style={s.badgeGrid}>
           {earned.map((b) => (
-            <Card key={b.days} style={[s.badge, !b.earned && s.badgeLocked]}>
+            <Card key={b.days} style={[s.badge, b.earned ? s.badgeEarned : s.badgeLocked]}>
               <MaterialIcons
                 name={b.earned ? 'military-tech' : 'lock-outline'}
                 size={26}
-                color={b.earned ? colors.primaryContainer : colors.outlineVariant}
+                color={b.earned ? colors.primaryContainer : colors.onSurfaceVariant}
               />
-              <Text style={[s.badgeName, !b.earned && { color: colors.outlineVariant }]}>
+              <Text style={[s.badgeName, !b.earned && { color: colors.onSurfaceVariant }]}>
                 {b.name}
               </Text>
               <StatLabel>{b.days} days</StatLabel>
@@ -150,7 +153,8 @@ const makeStyles = ({ colors }: any) => ({
     borderWidth: 2, borderColor: colors.primaryContainer,
   },
   badgeGrid: { flexDirection: 'row' as const, flexWrap: 'wrap' as const, gap: space.gutter },
-  badge: { width: '47%' as any, alignItems: 'center' as const, gap: 6, paddingVertical: 20 },
-  badgeLocked: { opacity: 0.7 },
+  badge: { width: '47%' as any, alignItems: 'center' as const, gap: 6, paddingVertical: 20, borderWidth: 1 },
+  badgeEarned: { borderColor: colors.primaryContainer },
+  badgeLocked: { backgroundColor: colors.surfaceContainerLow, borderColor: colors.primaryContainer, opacity: 0.72 },
   badgeName: { ...type.bodySm, fontWeight: '600' as const, color: colors.onSurface, textAlign: 'center' as const },
 });

@@ -46,6 +46,11 @@ export default function OnboardingScreen({ navigation }: any) {
         </View>
 
         <View style={[s.slide, { width }]}>
+          <View style={s.topBar}>
+            <Pressable style={s.topBackBtn} onPress={() => go(0)}>
+              <MaterialIcons name="arrow-back" size={20} color={colors.onSurface} />
+            </Pressable>
+          </View>
           <View style={{ flex: 1, justifyContent: 'center', gap: space.gutter, width: '100%' }}>
             <Text style={[s.h2, { textAlign: 'center', marginBottom: 8 }]}>How it works</Text>
             {FEATURES.map((f) => (
@@ -61,10 +66,7 @@ export default function OnboardingScreen({ navigation }: any) {
             ))}
           </View>
           <View style={{ flexDirection: 'row', gap: space.gutter, width: '100%' }}>
-            <Pressable style={[s.ghostBtn, { flex: 1 }]} onPress={() => go(0)}>
-              <Text style={s.ghostBtnText}>Back</Text>
-            </Pressable>
-            <Pressable style={[s.primaryBtn, { flex: 2 }]} onPress={() => go(2)}>
+            <Pressable style={[s.primaryBtn, { flex: 1 }]} onPress={() => go(2)}>
               <Text style={s.primaryBtnText}>Next</Text>
             </Pressable>
           </View>
@@ -86,7 +88,7 @@ export default function OnboardingScreen({ navigation }: any) {
               <MaterialIcons name="wifi-off" size={20} color={colors.onPrimary} />
               <Text style={s.primaryBtnText}>Continue as guest</Text>
             </Pressable>
-            <Pressable style={s.ghostBtn} onPress={() => navigation.navigate('Auth')}>
+            <Pressable style={s.ghostBtn} onPress={() => navigation.navigate('SignUp')}>
               <MaterialIcons name="cloud-sync" size={20} color={colors.onSurface} />
               <Text style={s.ghostBtnText}>Create account</Text>
             </Pressable>
@@ -104,6 +106,16 @@ export default function OnboardingScreen({ navigation }: any) {
 const makeStyles = ({ colors, ambient, interactive }: any) => ({
   safe: { flex: 1, backgroundColor: colors.background },
   slide: { paddingHorizontal: space.containerMargin, paddingVertical: space.sectionGap, flex: 1 },
+  topBar: { width: '100%' as const, alignItems: 'flex-start' as const, marginBottom: 8 },
+  topBackBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: radius.full,
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
+    backgroundColor: colors.surfaceContainerLowest,
+    ...ambient,
+  },
   center: { flex: 1, alignItems: 'center' as const, justifyContent: 'center' as const, gap: 12 },
   logoTile: {
     width: 128, height: 128, borderRadius: 32, marginBottom: 24,

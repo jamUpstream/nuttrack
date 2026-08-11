@@ -14,13 +14,16 @@ import HomeScreen from './src/screens/HomeScreen';
 import StatsScreen from './src/screens/StatsScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import OnboardingScreen from './src/screens/OnboardingScreen';
-import AuthScreen from './src/screens/AuthScreen';
+import LoginScreen from './src/screens/LoginScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
+import AboutScreen from './src/screens/AboutScreen';
 import UndoToast from './src/components/UndoToast';
 import AcornMark from './src/components/AcornMark';
 import { syncNow } from './src/lib/sync';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const BOOT_SPLASH_MS = 1200;
 
 function HeaderTitle() {
   const { colors } = useTheme();
@@ -76,10 +79,16 @@ function Root() {
   const { colors, dark, loaded: themeLoaded } = useTheme();
   const { ready, mode, init } = useStore();
   const [booted, setBooted] = useState(false);
+  const [showBootSplash, setShowBootSplash] = useState(true);
 
   useEffect(() => {
     init().finally(() => setBooted(true));
   }, [init]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowBootSplash(false), BOOT_SPLASH_MS);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const sub = AppState.addEventListener('change', (state) => {
@@ -100,7 +109,7 @@ function Root() {
     },
   };
 
-  if (!booted || !ready || !themeLoaded) {
+  if (!booted || !ready || !themeLoaded || showBootSplash) {
     return (
       <View style={{
         flex: 1, alignItems: 'center', justifyContent: 'center',
@@ -118,7 +127,9 @@ function Root() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {mode === null && <Stack.Screen name="Onboarding" component={OnboardingScreen} />}
         <Stack.Screen name="Tabs" component={Tabs} />
-        <Stack.Screen name="Auth" component={AuthScreen} options={{ presentation: 'modal' }} />
+        <Stack.Screen name="Login" component={LoginScreen} options={{ presentation: 'modal' }} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} options={{ presentation: 'modal' }} />
+        <Stack.Screen name="About" component={AboutScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
