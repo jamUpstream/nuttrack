@@ -1,5 +1,39 @@
 node_modules/
+
+# Expo
 .expo/
+.expo-shared/
 dist/
+web-build/
+
+# Environment files
 .env
+.env.*
+!.env.example
+
+# Logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+eas-build-log.txt
+gradle-release.log
+
+# React Native / Metro
+.metro-health-check*
+
+# Android
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+*.keystore
+*.jks
+
+# iOS
+ios/build/
+ios/Pods/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
